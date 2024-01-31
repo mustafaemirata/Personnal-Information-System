@@ -6,35 +6,33 @@ public class calisansilme {
     public static void main(String[] args) {
         try
         {
-            // Silinecek çalışanın adını kullanıcıdan al
+         
             BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
             System.out.print("Silinecek çalışanın adını girin: ");
             String silinecekCalisanAdi = br.readLine().trim();
 
-            // Dosyaları aç
+       
             File originalFile = new File("calisan.txt");
             File tempFile = new File("temp.txt");
             BufferedReader reader = new BufferedReader(new FileReader(originalFile));
-            BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile));
-
-            // Çalışanın adını içeren satırı bul ve sil
+          
             boolean silindi = false;
             String currentLine;
             while ((currentLine = reader.readLine()) != null) {
-                // Satırı doğrudan kontrol et
+           
                 if (currentLine.contains(silinecekCalisanAdi)) {
                     silindi = true;
                     continue; // Bu satırı atlayın (yani silin)
                 }
-                // Silinmeyecek çalışanı yeni dosyaya yaz
+          
                 writer.write(currentLine + System.getProperty("line.separator"));
             }
 
-            // Dosyaları kapat
+
             writer.close();
             reader.close();
 
-            // Orijinal dosyayı sil ve geçici dosyayı orijinal dosyanın adıyla yeniden adlandır
+           
             if (originalFile.delete())
             {
                 if (!tempFile.renameTo(originalFile)) {
