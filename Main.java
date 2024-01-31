@@ -1,59 +1,72 @@
 package project;
-
+import java.util.Scanner;
 import java.io.*;
 
-public class calisansilme {
-    public static void main(String[] args) {
-        try
+public class Main
+{
+
+    public static void main(String[] args) throws IOException 
+    {
+
+        System.out.println("Yapılacak işlemi seçiniz.");
+        System.out.println("1. Personel Ekleme \n2. Yönetici Ekle\n3. İşten Çıkarma\n4. Firma Bilgileri");
+        Scanner scan = new Scanner(System.in);
+        int secim = scan.nextInt();
+
+        switch (secim)
         {
-            // Silinecek çalışanın adını kullanıcıdan al
-            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-            System.out.print("Silinecek çalışanın adını girin: ");
-            String silinecekCalisanAdi = br.readLine().trim();
+            case 1:
+                Scanner personelScanner = new Scanner(System.in);
+                boolean devam = true;
+                while (devam) 
+                {
+                    System.out.println("Eklemek istediğiniz personel ismini giriniz. veya çıkmak için 0'a basınız:");
+                    String personel = personelScanner.nextLine();
+                    if (personel.equals("0"))
+                    {
+                        devam = false;
+                    } else
+                    {
+                        System.out.println("Eklemek istediğiniz personel yaşını giriniz.");
+                        String personelyas = personelScanner.nextLine();
+                        System.out.println("Eklemek istediğiniz personel maaşını giriniz.");
+                        int personelmaas = personelScanner.nextInt();
 
-            // Dosyaları aç
-            File originalFile = new File("calisan.txt");
-            File tempFile = new File("temp.txt");
-            BufferedReader reader = new BufferedReader(new FileReader(originalFile));
-            BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile));
-
-            // Çalışanın adını içeren satırı bul ve sil
-            boolean silindi = false;
-            String currentLine;
-            while ((currentLine = reader.readLine()) != null) {
-                // Satırı doğrudan kontrol et
-                if (currentLine.contains(silinecekCalisanAdi)) {
-                    silindi = true;
-                    continue; // Bu satırı atlayın (yani silin)
+                        calisan_bilgileri.calisanBilgileriEkle(personel, personelyas, personelmaas);
+                        System.out.println("Personel başarıyla eklendi.");
+                    }
                 }
-                // Silinmeyecek çalışanı yeni dosyaya yaz
-                writer.write(currentLine + System.getProperty("line.separator"));
-            }
+                break;
+            case 2:
+            	Scanner yoneticiScanner = new Scanner(System.in);
+                boolean devam1 = true;
+                while (devam1) 
+                {
+                    System.out.println("Eklemek istediğiniz pozisyon giriniz. veya çıkmak için 0'a basınız:");
+                    String pozisyon = yoneticiScanner.nextLine();
+                    if (pozisyon.equals("0"))
+                    {
+                        devam1 = false;
+                    } else
+                    {
+                        System.out.println("Eklemek istediğiniz ismi giriniz.");
+                        String pozisyonisim = yoneticiScanner.nextLine();
+                        System.out.println("Eklemek istediğiniz ismin yaşını giriniz.");
+                        int pozisyonyas = yoneticiScanner.nextInt();
 
-            // Dosyaları kapat
-            writer.close();
-            reader.close();
-
-            // Orijinal dosyayı sil ve geçici dosyayı orijinal dosyanın adıyla yeniden adlandır
-            if (originalFile.delete())
-            {
-                if (!tempFile.renameTo(originalFile)) {
-                    throw new IOException("Geçici dosya, orijinal dosya adına yeniden adlandırılamadı.");
+                        yonetici_bilgileri.yoneticiBilgisiEkle(pozisyon, pozisyonisim, pozisyonyas);
+                        System.out.println("Personel başarıyla eklendi.");
+                    }
                 }
-                System.out.println("Belirtilen çalışan dosyadan başarıyla silindi.");
-            } else 
-            {
-                throw new IOException("Orijinal dosya silinemedi.");
-            }
-
-            // Durumu kullanıcıya bildir
-            if (!silindi)
-            {
-                System.out.println("Belirtilen çalışan dosyada bulunamadı.");
-            }
-        } catch (IOException e) 
-        {
-            System.out.println("Bir hata oluştu: " + e.getMessage());
+                break;
+            case 3:
+              calisansilme.main(args);
+                break;
+            case 4:
+            	   firma_bilgileri.kisiSayisiBulma("dosya.txt");
+                break;
+            default:
+                System.out.println("Geçersiz seçenek!");
         }
     }
 }
